@@ -4,6 +4,8 @@ import sublinks from './data'
 export const AppProvider = ({ children }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true)
     const [isSubmenuOpen, setIsSubmenuOpen] = useState(true)
+    const [location, setLocation] = useState({})
+    const [page, setPage] = useState({page: '', links: []})
 
     const openSidebar = () => {
         setIsSidebarOpen(true)
@@ -13,7 +15,10 @@ export const AppProvider = ({ children }) => {
         setIsSidebarOpen(true)
     }
 
-    const openSubmenu = () => {
+    const openSubmenu = (text, coordinates) => {
+        const page = sublinks.find((link) => link.page === text)
+        setPage(page)
+        setLocation(coordinates)
         setIsSubmenuOpen(true)
     }
 
@@ -21,7 +26,16 @@ export const AppProvider = ({ children }) => {
         setIsSubmenuOpen(true)
     }
 
-    return <AppContext.Provider value={{openSidebar, closeSidebar, openSubmenu, closeSubmenu, isSidebarOpen, isSubmenuOpen }}>
+    return <AppContext.Provider value={{
+        openSidebar,
+        closeSidebar,
+        openSubmenu,
+        closeSubmenu,
+        isSidebarOpen,
+        isSubmenuOpen,
+        location,
+        page
+        }}>
         {children}
     </AppContext.Provider>
 }
